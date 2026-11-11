@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller.js';
-import { AppService } from './app.service.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DrizzleModule } from '@nestjs/drizzle';
 import { drizzle } from 'drizzle-orm/node-postgres';
+import { McpModule } from '@nestjs/mcp';
+import { DbCopilotModule } from './db-copilot/db-copilot.module.js';
 
 @Module({
   imports: [
@@ -25,8 +25,13 @@ import { drizzle } from 'drizzle-orm/node-postgres';
         connection: config.getOrThrow('DATABASE_URL_READONLY'),
       }),
     }),
+    McpModule.forRoot({
+      name: 'db-copilot',
+      version: '1.0.0',
+      include: [DbCopilotModule],
+    }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
