@@ -35,6 +35,7 @@ export default function App() {
     event.preventDefault()
     const trimmed = question.trim()
     if (!trimmed || ask.isPending) return
+    setQuestion('')
     ask.mutate(trimmed)
   }
 

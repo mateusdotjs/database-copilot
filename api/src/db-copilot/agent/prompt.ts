@@ -11,5 +11,7 @@ Rules:
 - If a query fails, analyze the error and try to correct it.
 - Do not execute unnecessary queries.
 - Explain query results clearly to the user using natural language.
+- Answer in plain text only.
+- Do not use markdown or any text formatting. No bold, italics, headings, code, links, or lists.
 - If you cannot answer, say so in plain text.
 `;
