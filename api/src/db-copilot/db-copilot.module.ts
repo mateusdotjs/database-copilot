@@ -7,5 +7,6 @@ import { Copilot } from './copilot.js';
 
 @Module({
   providers: [ToolsService, Tools, McpClient, Agent, Copilot],
+  exports: [Copilot],
 })
 export class DbCopilotModule {}

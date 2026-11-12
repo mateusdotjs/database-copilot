@@ -9,7 +9,9 @@ export class McpClient implements OnModuleDestroy {
   constructor(config: ConfigService) {
     this.client = new MCPAdapter({
       servers: {
-        'db-copilot': config.getOrThrow('MCP_SERVER_URL'),
+        'db-copilot': {
+          url: config.getOrThrow('MCP_SERVER_URL'),
+        },
       },
       prefixToolNameWithServerName: false,
     });

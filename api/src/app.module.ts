@@ -4,6 +4,7 @@ import { DrizzleModule } from '@nestjs/drizzle';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { McpModule } from '@nestjs/mcp';
 import { DbCopilotModule } from './db-copilot/db-copilot.module.js';
+import { QuestionsModule } from './questions/questions.module.js';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { DbCopilotModule } from './db-copilot/db-copilot.module.js';
       version: '1.0.0',
       include: [DbCopilotModule],
     }),
+    QuestionsModule,
   ],
   controllers: [],
   providers: [],
