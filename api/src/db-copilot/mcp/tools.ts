@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { Tool } from '@nestjs/mcp';
-import { DbCopilotService } from './db-copilot.service.js';
+import { ToolsService } from './tools.service.js';
 import * as z from 'zod';
 
 @Injectable()
-export class DbCopilotTools {
-  constructor(private readonly dbCopilotService: DbCopilotService) {}
+export class Tools {
+  constructor(private readonly ToolsService: ToolsService) {}
 
   @Tool({
     description: 'Get the schema of the database',
   })
   async get_schema() {
-    return this.dbCopilotService.getSchema();
+    return this.ToolsService.getSchema();
   }
 
   @Tool({
@@ -21,6 +21,6 @@ export class DbCopilotTools {
     }),
   })
   async execute_query({ query }: { query: string }) {
-    return this.dbCopilotService.executeQuery(query);
+    return this.ToolsService.executeQuery(query);
   }
 }

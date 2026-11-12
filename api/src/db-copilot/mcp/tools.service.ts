@@ -4,7 +4,7 @@ import { sql } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
 @Injectable()
-export class DbCopilotService {
+export class ToolsService {
   constructor(@InjectDrizzle('readonly') private readonly db: NodePgDatabase) {}
 
   async getSchema() {

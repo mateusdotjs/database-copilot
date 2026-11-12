@@ -7,7 +7,9 @@ import { DbCopilotModule } from './db-copilot/db-copilot.module.js';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     DrizzleModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
