@@ -68,7 +68,7 @@ cd api
 npm install
 set -a && source .env && set +a
 npx drizzle-kit migrate
-npx tsx src/database/seed.ts
+npx tsx --env-file=.env src/database/seed.ts
 ```
 
 ## Run
