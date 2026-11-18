@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { HumanMessage } from '@langchain/core/messages';
+import { GraphRecursionError } from '@langchain/langgraph';
 import { Agent } from './agent/model.js';
 import { createAgentTools } from './agent/tools.js';
 import { ToolsService } from './mcp/tools.service.js';
 import { createNodes } from './graph/nodes.js';
-import { createGraph, readAnswer } from './graph/graph.js';
+import { createGraph, EMPTY_ANSWER, readAnswer } from './graph/graph.js';
 
 @Injectable()
 export class Copilot {
@@ -23,10 +24,19 @@ export class Copilot {
       getSchemaTool: this.tools.getSchemaTool,
       executeQueryTool: this.tools.executeQueryTool,
     });
-    const state = await createGraph(nodes).invoke({
-      messages: [new HumanMessage(question)],
-    });
+    try {
+      const state = await createGraph(nodes).invoke(
+        { messages: [new HumanMessage(question)] },
+        { recursionLimit: 8 },
+      );
 
-    return readAnswer(state);
+      return readAnswer(state);
+    } catch (error) {
+      if (error instanceof GraphRecursionError) {
+        return EMPTY_ANSWER;
+      }
+
+      throw error;
+    }
   }
 }

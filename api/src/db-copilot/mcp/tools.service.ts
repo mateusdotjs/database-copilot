@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectDrizzle } from '@nestjs/drizzle';
 import { sql } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
+import { assertSingleSelect } from './validate-query.js';
 
 @Injectable()
 export class ToolsService {
@@ -50,6 +51,8 @@ export class ToolsService {
   }
 
   async executeQuery(query: string) {
+    await assertSingleSelect(query);
+
     return this.db.execute(sql.raw(query));
   }
 }
