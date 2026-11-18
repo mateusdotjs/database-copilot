@@ -21,8 +21,8 @@ export class QuestionsService {
   constructor(private readonly copilot: Copilot) {}
 
   async ask(question: string) {
-    const answer = await this.copilot.ask(question);
+    const { answer, queries } = await this.copilot.ask(question);
 
-    return { answer: plainText(answer) };
+    return { answer: plainText(answer), queries };
   }
 }

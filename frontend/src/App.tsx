@@ -10,6 +10,7 @@ const suggestions = [
 
 type AskResponse = {
   answer: string
+  queries: string[]
 }
 
 async function askQuestion(question: string) {
@@ -23,8 +24,7 @@ async function askQuestion(question: string) {
     throw new Error('Não foi possível obter uma resposta.')
   }
 
-  const body = (await response.json()) as AskResponse
-  return body.answer
+  return (await response.json()) as AskResponse
 }
 
 export default function App() {
@@ -88,9 +88,23 @@ export default function App() {
         )}
 
         {ask.isSuccess && (
-          <p className="mt-6 text-lg leading-relaxed whitespace-pre-wrap">
-            {ask.data}
-          </p>
+          <>
+            <p className="mt-6 text-lg leading-relaxed whitespace-pre-wrap">
+              {ask.data.answer}
+            </p>
+            {ask.data.queries.length > 0 && (
+              <div className="mt-4 flex flex-col gap-2">
+                {ask.data.queries.map((query, index) => (
+                  <pre
+                    key={index}
+                    className="overflow-x-auto rounded-2xl border border-neutral-300 bg-white p-4 font-mono text-sm text-neutral-800"
+                  >
+                    {query}
+                  </pre>
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </main>

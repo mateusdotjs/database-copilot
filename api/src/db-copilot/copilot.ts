@@ -33,7 +33,7 @@ export class Copilot {
       return readAnswer(state);
     } catch (error) {
       if (error instanceof GraphRecursionError) {
-        return EMPTY_ANSWER;
+        return { answer: EMPTY_ANSWER, queries: [] };
       }
 
       throw error;

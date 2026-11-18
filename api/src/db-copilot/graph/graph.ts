@@ -10,7 +10,26 @@ export const EMPTY_ANSWER = 'Não consegui obter um resultado para responder.';
 export function readAnswer(state: typeof stateSchema.State) {
   const text = state.messages.at(-1)?.text.trim() ?? '';
 
-  return text || EMPTY_ANSWER;
+  return {
+    answer: text || EMPTY_ANSWER,
+    queries: readQueries(state),
+  };
+}
+
+function readQueries(state: typeof stateSchema.State) {
+  return state.messages.flatMap((message) => {
+    if (!AIMessage.isInstance(message)) {
+      return [];
+    }
+
+    return (message.tool_calls ?? []).flatMap((call) => {
+      const query = call.args.query;
+
+      return call.name === 'execute_query' && typeof query === 'string'
+        ? [query]
+        : [];
+    });
+  });
 }
 
 export function routeAfterAgent(state: typeof stateSchema.State) {
